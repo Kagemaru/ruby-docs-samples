@@ -1,0 +1,3 @@
+.envrc
+pod_structure.rb
+create_reindex_sphinx_task.rb
