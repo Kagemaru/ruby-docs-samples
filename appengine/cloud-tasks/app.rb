@@ -1,19 +1,25 @@
 require "sinatra"
 require "json"
-require_relative "handler/reindex_sphinx"
+require_relative "util/utils"
 
 $stdout.sync = true
 
-get "/" do
-  "Hello World!"
-end
+get("/") { "Hello World!" }
 
-post "/reindex_sphinx" do
-  # We expect a json payload in the request body.
-  data = JSON.parse request.body.read rescue {}
+handler_endpoints = [:reindex_sphinx, :sync_db]
 
-  puts "Received reindex_sphinx task, running it now"
-  ReindexSphinx.new(data).run
-  puts "Done running the reindex sphinx task"
-  "Done running the reindex sphinx task"
+handler_endpoints.each do |endpoint|
+  require_relative "handler/#{endpoint}"
+
+  post "/#{endpoint}" do
+    # We expect a json payload in the request body.
+    data = JSON.parse request.body.read rescue {}
+
+    puts "Received #{endpoint} task, running it now"
+
+    Utils.constantize(endpoint).new(data).run
+
+    puts "Done running the #{endpoint} task"
+    "Done running the #{endpoint} task"
+  end
 end
