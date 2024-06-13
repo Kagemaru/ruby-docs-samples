@@ -13,8 +13,11 @@ group :test do
 end
 
 group :development do
-  gem "google-style"
+  gem "binding_of_caller"
   gem "pry"
+  gem "pry-byebug"
+  gem "reek"
   gem "rubocop"
   gem "ruby-lsp"
+  gem "standard", ">= 1.35.1"
 end

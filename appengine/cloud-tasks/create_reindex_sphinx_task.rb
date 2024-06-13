@@ -19,9 +19,9 @@ class CloudTask
 
       {
         app_engine_http_request: {
-          http_method:  method,
+          http_method: method,
           relative_uri: uri,
-          body:         payload
+          body: payload
         },
         schedule_time: timestamp
       }
@@ -30,9 +30,9 @@ class CloudTask
     def parent client, project: nil, location: nil, queue: nil
       @parent ||=
         client.queue_path(
-          project:  project  || ENV["GOOGLE_CLOUD_PROJECT_ID"],
+          project: project || ENV["GOOGLE_CLOUD_PROJECT_ID"],
           location: location || ENV["LOCATION_ID"],
-          queue:    queue    || ENV["QUEUE_ID"]
+          queue: queue || ENV["QUEUE_ID"]
         )
     end
 

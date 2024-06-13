@@ -449,26 +449,26 @@ def pod
         image: "eu.gcr.io/api-project-1016687514786/swissunihockey/vbl-rails:development",
         command: ["bash", "-c", "rails bleib:wait_for_migrations"],
         env: [
-          { name: "STAGE_NAME", value: "development" },
-          { name: "SERVER_ROLE", value: "sphinx" },
-          { name: "RAILS_ENV", value: "staging" },
-          { name: "BS_BASE_URL", value: "https://api-v2-dev.swissunihockey.ch/api" },
-          { name: "TZ", value: "Europe/Berlin" },
-          { name: "RAILS_DB_HOST", value: "postgres" },
-          { name: "RAILS_DB_PORT", value: "5432" },
-          { name: "RAILS_DB_NAME", value: "swissunihockey" },
-          { name: "RAILS_DB_USERNAME", valueFrom: { secretKeyRef: { name: "database-credentials", key: "username" } } },
-          { name: "RAILS_DB_PASSWORD", valueFrom: { secretKeyRef: { name: "database-credentials", key: "password" } } },
-          { name: "RAILS_MEMCACHED_HOST", value: "memcached" },
-          { name: "RAILS_MEMCACHED_PORT", value: "11211" },
-          { name: "RAILS_SPHINX_HOST", value: "0.0.0.0" },
-          { name: "RAILS_SPHINX_PORT", value: "9312" },
-          { name: "SPHINX_INTERVAL_TIME", value: "7200" },
-          { name: "SPHINX_CONFIG_PATH", value: "/opt/app-root/searchd/sphinx.conf" },
-          { name: "QUEUES", value: "delayed_delta" },
-          { name: "SENTRY_DSN", value: "https://d43000604a0a438989b18e12750ce2ba:39fdd38d4e6c4d03a46cc9e1fcbb7b80@sentry.puzzle.ch/42" },
-          { name: "BS_API_KEY", valueFrom: { secretKeyRef: { name: "vbl-bs-credentials", key: "api-key" } } },
-          { name: "BS_API_SECRET", valueFrom: { secretKeyRef: { name: "vbl-bs-credentials", key: "api-secret" } } }
+          {name: "STAGE_NAME", value: "development"},
+          {name: "SERVER_ROLE", value: "sphinx"},
+          {name: "RAILS_ENV", value: "staging"},
+          {name: "BS_BASE_URL", value: "https://api-v2-dev.swissunihockey.ch/api"},
+          {name: "TZ", value: "Europe/Berlin"},
+          {name: "RAILS_DB_HOST", value: "postgres"},
+          {name: "RAILS_DB_PORT", value: "5432"},
+          {name: "RAILS_DB_NAME", value: "swissunihockey"},
+          {name: "RAILS_DB_USERNAME", valueFrom: {secretKeyRef: {name: "database-credentials", key: "username"}}},
+          {name: "RAILS_DB_PASSWORD", valueFrom: {secretKeyRef: {name: "database-credentials", key: "password"}}},
+          {name: "RAILS_MEMCACHED_HOST", value: "memcached"},
+          {name: "RAILS_MEMCACHED_PORT", value: "11211"},
+          {name: "RAILS_SPHINX_HOST", value: "0.0.0.0"},
+          {name: "RAILS_SPHINX_PORT", value: "9312"},
+          {name: "SPHINX_INTERVAL_TIME", value: "7200"},
+          {name: "SPHINX_CONFIG_PATH", value: "/opt/app-root/searchd/sphinx.conf"},
+          {name: "QUEUES", value: "delayed_delta"},
+          {name: "SENTRY_DSN", value: "https://d43000604a0a438989b18e12750ce2ba:39fdd38d4e6c4d03a46cc9e1fcbb7b80@sentry.puzzle.ch/42"},
+          {name: "BS_API_KEY", valueFrom: {secretKeyRef: {name: "vbl-bs-credentials", key: "api-key"}}},
+          {name: "BS_API_SECRET", valueFrom: {secretKeyRef: {name: "vbl-bs-credentials", key: "api-secret"}}}
         ],
         resources: {},
         terminationMessagePath: "/dev/termination-log",
@@ -483,18 +483,18 @@ def pod
           ports: [
             {
               containerPort: 9312,
-            protocol: "TCP"
+              protocol: "TCP"
             }
           ],
           env: [
-            { name: "STAGE_NAME", value: "development" },
-            { name: "SERVER_ROLE", value: "sphinx" },
-            { name: "RAILS_ENV", value: "staging" },
-            { name: "BS_BASE_URL", value: "https://api-v2-dev.swissunihockey.ch/api" },
-            { name: "TZ", value: "Europe/Berlin" },
-            { name: "RAILS_DB_HOST", value: "postgres" },
-            { name: "RAILS_DB_PORT", value: "5432" },
-            { name: "RAILS_DB_NAME", value: "swissunihockey" },
+            {name: "STAGE_NAME", value: "development"},
+            {name: "SERVER_ROLE", value: "sphinx"},
+            {name: "RAILS_ENV", value: "staging"},
+            {name: "BS_BASE_URL", value: "https://api-v2-dev.swissunihockey.ch/api"},
+            {name: "TZ", value: "Europe/Berlin"},
+            {name: "RAILS_DB_HOST", value: "postgres"},
+            {name: "RAILS_DB_PORT", value: "5432"},
+            {name: "RAILS_DB_NAME", value: "swissunihockey"},
             {
               name: "RAILS_DB_USERNAME",
               valueFrom: {
@@ -513,14 +513,14 @@ def pod
                 }
               }
             },
-            { name: "RAILS_MEMCACHED_HOST", value: "memcached" },
-            { name: "RAILS_MEMCACHED_PORT", value: "11211" },
-            { name: "RAILS_SPHINX_HOST", value: "0.0.0.0" },
-            { name: "RAILS_SPHINX_PORT", value: "9312" },
-            { name: "SPHINX_INTERVAL_TIME", value: "7200" },
-            { name: "SPHINX_CONFIG_PATH", value: "/opt/app-root/searchd/sphinx.conf" },
-            { name: "QUEUES", value: "delayed_delta" },
-            { name: "SENTRY_DSN", value: "https://d43000604a0a438989b18e12750ce2ba:39fdd38d4e6c4d03a46cc9e1fcbb7b80@sentry.puzzle.ch/42" },
+            {name: "RAILS_MEMCACHED_HOST", value: "memcached"},
+            {name: "RAILS_MEMCACHED_PORT", value: "11211"},
+            {name: "RAILS_SPHINX_HOST", value: "0.0.0.0"},
+            {name: "RAILS_SPHINX_PORT", value: "9312"},
+            {name: "SPHINX_INTERVAL_TIME", value: "7200"},
+            {name: "SPHINX_CONFIG_PATH", value: "/opt/app-root/searchd/sphinx.conf"},
+            {name: "QUEUES", value: "delayed_delta"},
+            {name: "SENTRY_DSN", value: "https://d43000604a0a438989b18e12750ce2ba:39fdd38d4e6c4d03a46cc9e1fcbb7b80@sentry.puzzle.ch/42"},
             {
               name: "BS_API_KEY",
               valueFrom: {
@@ -553,7 +553,7 @@ def pod
             }
           ],
           livenessProbe: {
-            exec: { command: ["bash", "/usr/libexec/s2i/k8s-sphinx-liveness-check"] },
+            exec: {command: ["bash", "/usr/libexec/s2i/k8s-sphinx-liveness-check"]},
             initialDelaySeconds: 30,
             timeoutSeconds: 1,
             periodSeconds: 10,
@@ -623,7 +623,7 @@ def pod
       ],
       hostIP: "10.132.0.43",
       podIP: "10.0.0.202",
-      podIPs: [{ ip: "10.0.0.202" }],
+      podIPs: [{ip: "10.0.0.202"}],
       startTime: "2024-04-19T11:23:08Z",
       initContainerStatuses: [
         {
@@ -650,7 +650,7 @@ def pod
         {
           name: "vbl-sphinx",
           state: {
-            running: { startedAt: "2024-04-19T11:23:41Z" }
+            running: {startedAt: "2024-04-19T11:23:41Z"}
           },
           lastState: {},
           ready: true,

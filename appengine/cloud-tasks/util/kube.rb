@@ -8,7 +8,7 @@ class Kube
   include Singleton
 
   Settings = Struct.new(:namespace, :pod_name, :pod)
-  
+
   # Setup {{{
 
   def initialize
@@ -42,16 +42,33 @@ class Kube
     $CHILD_STATUS.exitstatus
   end
 
-  ## /Commands }}}
-  ## Waiting {{{
-  
-  def wait_for for="delete", timeout=60, **kwargs
-    config = config_from(kwargs)
-
-    ctl "wait --for=#{for} pod/#{config.pod_name} --timeout=#{timeout}s", config
+  def delete resource, name, config: nil
+    ctl "delete #{resource}/#{name}", config
   end
 
-  ## /Waiting }}}
+  ## /Commands }}}
+  ## Checks {{{
+
+  def wait **kwargs
+    config = config_from kwargs
+
+    condition =
+      case kwargs[:condition]
+      in :delete | nil then "delete"
+      in :running then "jsonpath='{.status.phase}'=Running"
+      else kwargs[:condition]
+      end
+        .then { |c| "--for=#{c}" }
+
+    timeout = "--timeout=#{kwargs[:timeout]}" if kwargs[:timeout]
+    id = "#{config.resource}/#{config.resource_name}"
+
+    command = ["wait", condition, timeout, id].compact.join " "
+
+    ctl command, config
+  end
+
+  ## /Checks }}}
   # /Kubectl wrappers }}}
   # Selectors {{{
 
@@ -59,24 +76,11 @@ class Kube
     @query ||= QueryBuilder.new
   end
 
-  def single_pod! pods
-    case pods.count
-    when 0   then raise "No running pods found."
-    when 2.. then raise "Too many pods found."
-    end
-
-    pods.first
-  end
-
-  def single_pod pods
-    single_pod! pods
-  rescue RuntimeError => e
-    e.message
-  end
-
   # /Selectors }}}
 
   private
+
+  # Helpers {{{
 
   def kubeconfig path
     path ||= ENV["KUBECONFIG"]
@@ -101,11 +105,16 @@ class Kube
     case kwargs
     in { pod: } if pod.is_a?(K8s::Resource) && pod.kind == "Pod"
       namespace ||= pod.to_hash.dig(:metadata, :namespace)
-      pod_name  ||= pod.dig(:metadata, :name)
+      pod_name ||= pod.dig(:metadata, :name)
     else
       pod = nil
     end
 
-    Kube::Settings.new(namespace: namespace, pod_name: pod_name, pod: pod)
+    Kube::Settings.new(namespace: namespace, pod_name: pod_name, pod: pod, **kwargs)
+  end
+
+  # Helpers }}}
+
+  class Pod
   end
 end

@@ -13,7 +13,11 @@ handler_endpoints.each do |endpoint|
 
   post "/#{endpoint}" do
     # We expect a json payload in the request body.
-    data = JSON.parse request.body.read rescue {}
+    data = begin
+      JSON.parse request.body.read
+    rescue
+      {}
+    end
 
     puts "Received #{endpoint} task, running it now"
 

@@ -1,9 +1,9 @@
-require_relative "../utils/kube"
+require_relative "../util/kube"
 
 class ReindexSphinx
   def initialize kwargs
-    @cluster    = kwargs.fetch :cluster,    "genesis"
-    @namespace  = kwargs.fetch :namespace,  "development"
+    @cluster = kwargs.fetch :cluster, "genesis"
+    @namespace = kwargs.fetch :namespace, "development"
     @deployment = kwargs.fetch :deployment, "vbl-sphinx"
   end
 
@@ -16,14 +16,14 @@ class ReindexSphinx
   private
 
   def reindex pod
-    code =
-      5.times do |_|
-        code = kube.exec @namespace, pod.metadata["name"], "rails ts:index"
+    code = nil
 
-        break code if code.zero?
+    5.times do |_|
+      code = kube.exec @namespace, pod.metadata["name"], "rails ts:index"
 
-        code
-      end
+      break if code.zero?
+    end
+
     abort "Five tries and no luck. Giving up. Last exit code: #{code}" unless code.zero?
   end
 
